@@ -232,10 +232,6 @@ LogSentinel/
 ├── Dockerfile          ← Railway / container deploy
 ├── railway.toml        ← Railway service config
 ├── docker-compose.yml  ← local postgres + redis (+ optional api profile)
-├── CLAUDE.md           ← agent guardrails (required YAML schema, MITRE rules, etc.)
-├── PROGRESS.md         ← phase checklist + benchmark log
-├── LogSentinel_PRD.md  ← full product spec
-├── Linear_DESIGN.md    ← dashboard design system reference
 │
 ├── ingestion/          ← file reader, sourcetype detection, simulator
 ├── parser/             ← extractor, cim_mapper, mitre_mapper, validator
@@ -252,10 +248,9 @@ LogSentinel/
 
 ## What's deliberately NOT in v1
 
-Per CLAUDE.md §15: no JWT/OAuth, no WebSockets (polling is fine at this
-scale), no Celery (BackgroundTasks only), no Kafka, no Elasticsearch, no live
-network capture, no multi-tenancy. These are v2 discussions, not v1 scope
-creep.
+No JWT/OAuth, no WebSockets (polling is fine at this scale), no Celery
+(BackgroundTasks only), no Kafka, no Elasticsearch, no live network capture,
+no multi-tenancy. These are v2 discussions, not v1 scope creep.
 
 ---
 

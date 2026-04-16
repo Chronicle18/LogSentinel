@@ -77,3 +77,8 @@ scratch/
 tmp/
 *.sqlite
 *.db
+
+Linear_DESIGN.md
+LogSentinel_PRD.md
+PROGRESS.md
+CLAUDE.md
