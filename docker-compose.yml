@@ -1,0 +1,33 @@
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: logsentinel
+      POSTGRES_USER: logsentinel
+      POSTGRES_PASSWORD: logsentinel
+    ports: ["5432:5432"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U logsentinel"]
+      interval: 2s
+      timeout: 5s
+      retries: 15
+
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+    # Note: Redis is available for v2 Celery — not actively used in v1 job queue.
+
+  api:
+    build: .
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports: ["8000:8000"]
+    environment:
+      DATABASE_URL: postgresql+asyncpg://logsentinel:logsentinel@postgres:5432/logsentinel
+      REDIS_URL: redis://redis:6379/0
+      CONFIG_DIR: /app/configs
+      LOG_LEVEL: INFO
+    # Opt-in: `docker-compose --profile full up` starts the API in a container.
+    # During active development, `make api` (local uvicorn w/ reload) is faster.
+    profiles: ["full"]

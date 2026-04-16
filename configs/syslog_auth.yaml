@@ -1,0 +1,19 @@
+sourcetype: syslog_auth
+time_format: "%b %d %H:%M:%S"
+transforms:
+  - name: ssh_login_success
+    pattern: '(?P<_time>[A-Z][a-z]{2}\s+\d+\s+\d{2}:\d{2}:\d{2})\s+(?P<src>\S+)\s+sshd\[\d+\]:\s+Accepted\s+(?P<auth_method>\w+)\s+for\s+(?P<user>\S+)\s+from\s+(?P<src_ip>[\d.]+)'
+    fields: ["_time", "src", "auth_method", "user", "src_ip"]
+    static_fields:
+      action: logon
+  - name: ssh_login_failure
+    pattern: '(?P<_time>[A-Z][a-z]{2}\s+\d+\s+\d{2}:\d{2}:\d{2})\s+(?P<src>\S+)\s+sshd\[\d+\]:\s+Failed\s+(?P<auth_method>\w+)\s+for\s+(?:invalid user\s+)?(?P<user>\S+)\s+from\s+(?P<src_ip>[\d.]+)'
+    fields: ["_time", "src", "auth_method", "user", "src_ip"]
+    static_fields:
+      action: logon_failure
+  - name: ssh_connection_closed
+    pattern: '(?P<_time>[A-Z][a-z]{2}\s+\d+\s+\d{2}:\d{2}:\d{2})\s+(?P<src>\S+)\s+sshd\[\d+\]:\s+(?P<action>Connection closed) by (?P<user>\w+) (?P<src_ip>[\d.]+)'
+    fields: ["_time", "src", "action", "user", "src_ip"]
+cim_mapping:
+  src_ip: src
+default_severity: medium

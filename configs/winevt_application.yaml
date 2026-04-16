@@ -1,0 +1,9 @@
+sourcetype: winevt_application
+time_format: "%Y-%m-%dT%H:%M:%S.%f"
+transforms:
+  - name: app_event
+    pattern: '(?P<_time>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z?)\s+Host=(?P<host>\S+)\s+EventID=(?P<event_id>\d+)\s+User=(?P<user>\S+)\s+Action=(?P<action>\S+)\s+App=(?P<app_name>\S+)'
+    fields: ["_time", "host", "event_id", "user", "action", "app_name"]
+cim_mapping:
+  host: src
+default_severity: low

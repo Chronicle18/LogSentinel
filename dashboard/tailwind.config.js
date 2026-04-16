@@ -1,0 +1,105 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  theme: {
+    extend: {
+      colors: {
+        bg: {
+          canvas: "#08090a",
+          panel: "#0f1011",
+          surface: "#191a1b",
+          raised: "#28282c",
+        },
+        fg: {
+          primary: "#f7f8f8",
+          secondary: "#d0d6e0",
+          tertiary: "#8a8f98",
+          quaternary: "#62666d",
+        },
+        brand: {
+          indigo: "#5e6ad2",
+          violet: "#7170ff",
+          hover: "#828fff",
+          lavender: "#7a7fad",
+        },
+        status: {
+          success: "#27a644",
+          emerald: "#10b981",
+          warning: "#f5a623",
+          danger: "#ef4444",
+          critical: "#dc2626",
+        },
+        severity: {
+          low: "#10b981",
+          medium: "#f5a623",
+          high: "#ef4444",
+          critical: "#dc2626",
+        },
+        line: {
+          subtle: "#141516",
+          primary: "#23252a",
+          secondary: "#34343a",
+        },
+      },
+      fontFamily: {
+        sans: [
+          "Inter Variable",
+          "Inter",
+          "SF Pro Display",
+          "-apple-system",
+          "system-ui",
+          "Segoe UI",
+          "Roboto",
+          "Helvetica Neue",
+          "sans-serif",
+        ],
+        mono: [
+          "Berkeley Mono",
+          "ui-monospace",
+          "SF Mono",
+          "Menlo",
+          "monospace",
+        ],
+      },
+      fontWeight: {
+        light: "300",
+        normal: "400",
+        medium: "510",
+        semibold: "590",
+      },
+      fontSize: {
+        micro: ["11px", { lineHeight: "1.4", letterSpacing: "0" }],
+        tiny: ["12px", { lineHeight: "1.4", letterSpacing: "0" }],
+        caption: ["13px", { lineHeight: "1.5", letterSpacing: "-0.13px" }],
+        small: ["15px", { lineHeight: "1.6", letterSpacing: "-0.165px" }],
+        body: ["16px", { lineHeight: "1.5", letterSpacing: "0" }],
+        lg: ["18px", { lineHeight: "1.6", letterSpacing: "-0.165px" }],
+        h3: ["20px", { lineHeight: "1.33", letterSpacing: "-0.24px" }],
+        h2: ["24px", { lineHeight: "1.33", letterSpacing: "-0.288px" }],
+        h1: ["32px", { lineHeight: "1.13", letterSpacing: "-0.704px" }],
+        display: ["48px", { lineHeight: "1.0", letterSpacing: "-1.056px" }],
+      },
+      borderRadius: {
+        micro: "2px",
+        sm: "4px",
+        DEFAULT: "6px",
+        md: "6px",
+        card: "8px",
+        panel: "12px",
+        lg: "12px",
+        xl: "22px",
+        pill: "9999px",
+      },
+      boxShadow: {
+        "ring-1": "rgba(0,0,0,0.2) 0px 0px 0px 1px",
+        "elev-1": "rgba(0,0,0,0.03) 0px 1.2px 0px 0px",
+        "elev-2": "rgba(0,0,0,0.4) 0px 2px 4px",
+        "elev-dialog":
+          "rgba(0,0,0,0) 0px 8px 2px, rgba(0,0,0,0.01) 0px 5px 2px, rgba(0,0,0,0.04) 0px 3px 2px, rgba(0,0,0,0.07) 0px 1px 1px, rgba(0,0,0,0.08) 0px 0px 1px",
+        focus: "rgba(0,0,0,0.1) 0px 4px 12px",
+        "inset-dark": "rgba(0,0,0,0.2) 0px 0px 12px 0px inset",
+      },
+    },
+  },
+  plugins: [],
+};

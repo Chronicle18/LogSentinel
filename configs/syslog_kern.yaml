@@ -1,0 +1,20 @@
+sourcetype: syslog_kern
+time_format: "%b %d %H:%M:%S"
+transforms:
+  - name: kernel_error
+    pattern: '(?P<_time>[A-Z][a-z]{2}\s+\d+\s+\d{2}:\d{2}:\d{2})\s+(?P<src>\S+)\s+kernel:\s+\[[^\]]+\]\s+(?P<severity>ERROR|WARNING|FATAL|INFO)\s+(?P<action>\S+)\s+(?P<message>.*)'
+    fields: ["_time", "src", "severity", "action", "message"]
+  - name: fw_traffic
+    pattern: '(?P<_time>[A-Z][a-z]{2}\s+\d+\s+\d{2}:\d{2}:\d{2})\s+(?P<src>\S+)\s+kernel:\s+\[[^\]]+\]\s+fw_traffic:\s+SRC=(?P<src_ip>[\d.]+)\s+DST=(?P<dest_ip>[\d.]+)\s+BYTES_OUT=(?P<bytes_out>\d+)'
+    fields: ["_time", "src", "src_ip", "dest_ip", "bytes_out"]
+    static_fields:
+      action: fw_traffic
+  - name: iptables_block
+    pattern: '(?P<_time>[A-Z][a-z]{2}\s+\d+\s+\d{2}:\d{2}:\d{2})\s+(?P<src>\S+)\s+kernel:\s+\[[^\]]+\]\s+(?:iptables\s+denied):\s+IN=\S+\s+OUT=\S+\s+MAC=\S+\s+SRC=(?P<src_ip>[\d.]+)\s+DST=(?P<dest_ip>[\d.]+)\s+.*?PROTO=\w+\s+SPT=\d+\s+DPT=(?P<dest_port>\d+)'
+    fields: ["_time", "src", "src_ip", "dest_ip", "dest_port"]
+    static_fields:
+      action: iptables_denied
+cim_mapping:
+  src_ip: src
+  dest_ip: dest
+default_severity: low

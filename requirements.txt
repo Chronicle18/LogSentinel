@@ -1,0 +1,17 @@
+fastapi
+uvicorn
+psycopg2-binary
+asyncpg
+SQLAlchemy
+alembic
+redis
+pydantic
+pydantic-settings
+PyYAML
+watchdog
+pytest
+pytest-asyncio==0.25.3
+httpx
+structlog
+slowapi
+greenlet

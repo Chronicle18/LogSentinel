@@ -1,0 +1,79 @@
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+.eggs/
+build/
+dist/
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ---------- Virtualenvs ----------
+log_venv/
+venv/
+.venv/
+env/
+ENV/
+
+# ---------- Environment / secrets ----------
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# ---------- Test / coverage ----------
+.pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.tox/
+.hypothesis/
+.mypy_cache/
+.ruff_cache/
+
+# ---------- Node / dashboard ----------
+dashboard/node_modules/
+dashboard/dist/
+dashboard/.vite/
+dashboard/*.local
+dashboard/.env
+dashboard/.env.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ---------- Generated simulator data ----------
+# Large synthetic log files — regenerate with `python ingestion/simulator.py`
+data/*.log
+data/*.xml
+data/*.jsonl
+
+# ---------- Alembic runtime state ----------
+# Migrations themselves (alembic/versions/*) are tracked.
+# No per-run artifacts to exclude right now.
+
+# ---------- Editors / IDEs ----------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ---------- Docker / build artifacts ----------
+*.pid
+*.log
+
+# ---------- Project-specific scratch ----------
+scratch/
+tmp/
+*.sqlite
+*.db

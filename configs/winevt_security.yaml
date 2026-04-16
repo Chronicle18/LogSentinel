@@ -1,0 +1,10 @@
+sourcetype: winevt_security
+time_format: "%Y-%m-%dT%H:%M:%S.%f"
+transforms:
+  - name: windows_logon
+    pattern: '(?P<_time>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z?)\s+Host=(?P<host>\S+)\s+EventID=(?P<event_id>\d+)\s+User=(?P<user>\S+)\s+Action=(?P<action>\S+)(?:\s+Target=(?P<target>\S+))?'
+    fields: ["_time", "host", "event_id", "user", "action", "target"]
+cim_mapping:
+  host: src
+  target: dest
+default_severity: medium

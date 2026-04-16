@@ -1,0 +1,9 @@
+sourcetype: winevt_system
+time_format: "%Y-%m-%dT%H:%M:%S.%f"
+transforms:
+  - name: service_status
+    pattern: '(?P<_time>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z?)\s+Host=(?P<host>\S+)\s+EventID=(?P<event_id>\d+)\s+Action=(?P<action>\S+)\s+Severity=(?P<severity>\w+)\s+Message=(?P<message>.*)'
+    fields: ["_time", "host", "event_id", "action", "severity", "message"]
+cim_mapping:
+  host: src
+default_severity: low
