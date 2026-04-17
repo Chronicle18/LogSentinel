@@ -110,12 +110,18 @@ LogSentinel ships with a `Dockerfile` and `railway.toml` tuned for Railway's
 Dockerfile builder.
 
 1. **Create a new project** on [Railway](https://railway.app/) from this repo.
-2. **Add a PostgreSQL plugin** to the project. Railway injects `DATABASE_URL`
-   automatically; the API normalizes it from `postgresql://` to the async
-   `postgresql+asyncpg://` form at startup (see `api/db.py`).
-3. **Set environment variables** on the API service:
-   - `CONFIG_DIR=/app/configs`
-   - `LOG_LEVEL=INFO`
+2. **Add a PostgreSQL plugin** to the project.
+3. **Wire the DB URL into the API service.** Railway does NOT auto-share env
+   vars across services. On the API service → Variables tab, add:
+   - `DATABASE_URL` = `${{Postgres.DATABASE_URL}}` *(literal — Railway
+     resolves the reference at deploy time; rename `Postgres` to match your
+     plugin's service name if different)*
+   - `CONFIG_DIR` = `/app/configs`
+   - `LOG_LEVEL` = `INFO`
+
+   `api/db.py` normalizes the injected `postgresql://` URL to the async
+   `postgresql+asyncpg://` form; `alembic/env.py` strips `+asyncpg` for the
+   sync migration run.
 4. **Deploy.** The container starts by running `alembic upgrade head` and then
    boots uvicorn on Railway's injected `$PORT`. Railway pings `/health` for
    the readiness check.

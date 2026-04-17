@@ -20,6 +20,12 @@ db_url = os.getenv(
     "DATABASE_URL",
     "postgresql+asyncpg://logsentinel:logsentinel@localhost:5432/logsentinel",
 )
+
+# Railway / Heroku-style plugins hand out `postgresql://...` or `postgres://...`.
+# Alembic runs sync, so strip `+asyncpg` and normalize the legacy `postgres://`
+# scheme that SQLAlchemy 2 no longer accepts.
+if db_url.startswith("postgres://"):
+    db_url = db_url.replace("postgres://", "postgresql://", 1)
 sync_url = db_url.replace("+asyncpg", "")
 config.set_main_option("sqlalchemy.url", sync_url)
 
