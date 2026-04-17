@@ -1,4 +1,5 @@
 import os
+import sys
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config, pool
@@ -16,10 +17,22 @@ if config.config_file_name is not None:
 
 target_metadata = Base.metadata
 
-db_url = os.getenv(
-    "DATABASE_URL",
-    "postgresql+asyncpg://logsentinel:logsentinel@localhost:5432/logsentinel",
+_LOCAL_FALLBACK = (
+    "postgresql+asyncpg://logsentinel:logsentinel@localhost:5432/logsentinel"
 )
+db_url = os.getenv("DATABASE_URL")
+if not db_url:
+    # Surfaces loudly in Railway / Docker deploy logs where falling back to
+    # localhost produces a cryptic psycopg2 "connection refused" instead of
+    # the real cause (missing env var). Still falls through for local dev so
+    # `make migrate` works out of the box against docker-compose postgres.
+    print(
+        "WARNING: DATABASE_URL is not set — falling back to localhost default. "
+        "On a deployed environment this means the Postgres plugin's URL was "
+        "not wired into this service.",
+        file=sys.stderr,
+    )
+    db_url = _LOCAL_FALLBACK
 
 # Railway / Heroku-style plugins hand out `postgresql://...` or `postgres://...`.
 # Alembic runs sync, so strip `+asyncpg` and normalize the legacy `postgres://`
