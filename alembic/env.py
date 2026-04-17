@@ -16,10 +16,21 @@ if config.config_file_name is not None:
 
 target_metadata = Base.metadata
 
-db_url = os.getenv(
-    "DATABASE_URL",
-    "postgresql+asyncpg://logsentinel:logsentinel@localhost:5432/logsentinel",
-)
+db_url = os.environ.get("DATABASE_URL")
+if not db_url:
+    raise RuntimeError(
+        "DATABASE_URL environment variable is not set. "
+        "Alembic requires a database connection to run migrations."
+    )
+
+# Normalise Railway/Heroku-style shorthand schemes to a full SQLAlchemy URL.
+if db_url.startswith("postgres://"):
+    db_url = db_url.replace("postgres://", "postgresql://", 1)
+elif db_url.startswith("postgresql+asyncpg://"):
+    db_url = db_url.replace("postgresql+asyncpg://", "postgresql://", 1)
+
+# Alembic runs migrations synchronously via psycopg2; strip any async driver
+# suffix so SQLAlchemy selects the default (psycopg2) dialect.
 sync_url = db_url.replace("+asyncpg", "")
 config.set_main_option("sqlalchemy.url", sync_url)
 
