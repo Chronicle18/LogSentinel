@@ -31,10 +31,14 @@ COPY configs ./configs
 COPY alembic ./alembic
 COPY alembic.ini ./alembic.ini
 COPY scripts ./scripts
+COPY entrypoint.sh ./entrypoint.sh
+
+RUN chmod +x ./entrypoint.sh
 
 # Railway injects $PORT; default to 8000 for local `docker run`.
 ENV PORT=8000
 EXPOSE 8000
 
-# Run migrations, then boot uvicorn. `sh -c` so $PORT expands at runtime.
-CMD ["sh", "-c", "alembic upgrade head && uvicorn api.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
+# entrypoint.sh runs alembic with explicit exit-code checking, then execs
+# uvicorn. Errors at either step are logged and surfaced — nothing is silent.
+CMD ["./entrypoint.sh"]
